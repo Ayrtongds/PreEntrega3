@@ -15,6 +15,10 @@ ul {
   list-style-type: none;
 }
 
+a {
+  text-decoration: none;
+}
+
 aside {
   padding: 2rem;
   color: white;
@@ -42,19 +46,45 @@ main {
   border-radius: 2rem;
 }
 
-#productos.contenedor-productos {
+.contenedor-productos {
   display: grid;
-  grid-template-columns: repeat(8);
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
 }
 
 .imagen img {
   max-width: 200px;
-  height: auto;
-  border: 1px solid #ccc;
+  max-height: 200px;
+  border: 1px solid #0a0404;
+  border-radius: 1rem;
 }
 
 #carrito {
   display: flex;
   text-align: center;
   justify-content: center;
+}
+
+.producto h2,
+.precio,
+.btnAgregar {
+  background-color: rgb(13, 113, 113);
+  padding: 0.5rem;
+  text-align: center;
+  justify-content: center;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  max-width: 200px;
+}
+
+.btnAgregar {
+  border: 0;
+  background-color: whitesmoke;
+  padding: 1.5rem;
+  border-radius: 1rem;
+}
+
+.btnAgregar :hover {
+  background-color: rgb(82, 201, 201);
 }
