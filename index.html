@@ -12,20 +12,21 @@
       <header>
         <h1 class="logo">HallucinatoryStore</h1>
       </header>
-    <nav><ul class="menu">
-      <li>
-          <button id="todos" class="boton-menu boton-categoria active"><i class="bi bi-hand-index-thumb-fill"></i> Todos los productos</button>
+    </aside>
+    <ul class="menu">
+      <li class="boton btnCategoria active" data-categoria="Todos">
+          <i class="bi bi-hand-index-thumb-fill"></i> Todos los productos</button>
       </li>
-      <li>
-          <button id="smartwatchs" class="boton-menu boton-categoria"><i class="bi bi-hand-index-thumb"></i> Smartwatchs</button>
+      <li class="boton btnCategoria" data-categoria="Smartwatchs">
+          <i class="bi bi-hand-index-thumb"></i> Smartwatchs</button>
       </li>
-      <li>
-          <button id="auriculares" class="boton-menu boton-categoria"><i class="bi bi-hand-index-thumb"></i> Auriculares</button>
+      <li class="boton btnCategoria" data-categoria="Auriculares">
+            <i class="bi bi-hand-index-thumb"></i> Auriculares</button>
       </li>
-      <li>
-      </aside>
     
-    </nav>
+      
+    
+   
     <main>
       <h2 class="tituloprin">Todos los productos</h2>
       <input id="inputBuscar" type="text" placeholder="Buscar productos..." />
@@ -40,8 +41,13 @@
         <div id="carrito"></div>
       </div>
       <h2>Total: $<span id="totalCarrito">0</span></h2>
+      <a href="#" id="botonComprar" class="boton" style="width: 100%; text-align: center"
+        >Comprar</a>
     </section>
 
-    <script src="app.js"></script>
-  </body>
+  </section>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  <script src="app.js"></script>
+</body>
 </html>

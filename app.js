@@ -11,19 +11,13 @@ class Producto {
 class BaseDeDatos {
   constructor() {
     this.productos = [];
-    this.agregarRegistro(1, "SmartwatchK10", 34990, "Smartwatch", "k10.png");
-    this.agregarRegistro(2, "SmartwatchK11", 37990, "Smartwatch", "k11.png");
-    this.agregarRegistro(3, "SmartwatchFIT2", 58990, "Smartwatch", "fit2.jpg");
-    this.agregarRegistro(4, "SmartwatchMB7", 49990, "Smartwatch", "mb7.png");
-    this.agregarRegistro(5, "AuriJBLVibe100", 32990, "Auriculares", "v100.png");
-    this.agregarRegistro(6, "AuriJBLVBuds", 39990, "Auriculares", "vbuds.png");
-    this.agregarRegistro(7, "AuriJBL130", 48990, "Auriculares", "130nc.png");
-    this.agregarRegistro(8, "AuriJBL230", 68990, "Auriculares", "230nc.png");
+    this.cargarRegistros();
   }
 
-  agregarRegistro(id, nombre, precio, categoria, imagen) {
-    const producto = new Producto(id, nombre, precio, categoria, imagen);
-    this.productos.push(producto);
+  async cargarRegistros() {
+    const resultado = await fetch("./json/productos.json");
+    this.productos = await resultado.json();
+    cargarProductos(this.productos);
   }
 
   traerRegistros() {
@@ -38,6 +32,10 @@ class BaseDeDatos {
     return this.productos.filter((producto) =>
       producto.nombre.toLowerCase().includes(palabra.toLowerCase())
     );
+  }
+
+  registrosPorCategoria(categoria) {
+    return this.products.filter((producto) => producto.categoria == categoria);
   }
 }
 
@@ -84,6 +82,14 @@ class Carrito {
     this.listar();
   }
 
+  vaciar() {
+    this.total = 0;
+    this.cantidadProductos = 0;
+    this.carrito = [];
+    localStorage.setItem("carrito", JSON.stringify(this.carrito));
+    this.listar();
+  }
+
   listar() {
     this.total = 0;
     this.cantidadProductos = 0;
@@ -102,6 +108,9 @@ class Carrito {
       this.total += producto.precio * producto.cantidad;
       this.cantidadProductos += producto.cantidad;
     }
+    if (this.cantidadProductos > 0) {
+      botonComprar.style.display = "block";
+    } else botonComprar.style.display = "none";
 
     const botonesQuitar = document.querySelectorAll(".btnQuitar");
 
@@ -120,16 +129,34 @@ class Carrito {
   }
 }
 
-const bd = new BaseDeDatos();
-
 const spanCantidadProductos = document.querySelector("#cantidadProductos");
 const spanTotalCarrito = document.querySelector("#totalCarrito");
 const divProductos = document.querySelector("#productos");
 const divCarrito = document.querySelector("#carrito");
 const inputBuscar = document.querySelector("#inputBuscar");
 const botonCarrito = document.querySelector("section h1");
+const botonComprar = document.querySelector("#botonComprar");
+const botonesCategorias = document.querySelectorAll(".btnCategoria");
+
+const bd = new BaseDeDatos();
 
 const carrito = new Carrito();
+
+botonesCategorias.forEach((boton) => {
+  boton.addEventListener("click", () => {
+    const categoria = boton.dataset.categoria;
+
+    const botonSeleccionado = document.querySelector(".seleccionado");
+    botonSeleccionado.classList.remove("seleccionado");
+
+    boton.classList.add("seleccionado");
+    if (categoria == "Todos") {
+      cargarProductos(bd.traerRegistros());
+    } else {
+      cargarProductos(bd.registrosPorCategoria(categoria));
+    }
+  });
+});
 
 cargarProductos(bd.traerRegistros());
 
@@ -138,12 +165,12 @@ function cargarProductos(productos) {
 
   for (const producto of productos) {
     divProductos.innerHTML += `
-      <div class="producto">              
+      <div class="producto">
+        <h2>${producto.nombre}</h2>
+        <p class="precio">$${producto.precio}</p>
         <div class="imagen">
           <img src="imag/${producto.imagen}" />
         </div>
-        <h2>${producto.nombre}</h2>  
-        <p class="precio">$${producto.precio}</p>
         <a href="#" class="btnAgregar" data-id="${producto.id}">Agregar al carrito</a>
       </div>
     `;
@@ -160,6 +187,15 @@ function cargarProductos(productos) {
       const producto = bd.registroPorId(idProducto);
 
       carrito.agregar(producto);
+
+      Toastify({
+        text: `Se ha añadido ${producto.nombre} al carrito`,
+        gravity: "bottom",
+        position: "center",
+        style: {
+          background: "linear-gradient(to right, #d15280, #244ced)",
+        },
+      }).showToast();
     });
   }
 }
@@ -168,10 +204,31 @@ inputBuscar.addEventListener("input", (event) => {
   event.preventDefault();
   const palabra = inputBuscar.value;
   const productos = bd.registrosPorNombre(palabra);
-  console.log(productos);
   cargarProductos(productos);
 });
 
 botonCarrito.addEventListener("click", (event) => {
   document.querySelector("section").classList.toggle("ocultar");
+});
+
+botonComprar.addEventListener("click", (event) => {
+  event.preventDefault();
+
+  Swal.fire({
+    title: "¿Seguro que desea comprar los productos?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Sí, seguro",
+    cancelButtonText: "No, no quiero",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      carrito.vaciar();
+      Swal.fire({
+        title: "¡Compra realizada!",
+        icon: "success",
+        text: "Su compra fue realizada con éxito.",
+        timer: 1500,
+      });
+    }
+  });
 });

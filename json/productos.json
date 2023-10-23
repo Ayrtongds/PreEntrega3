@@ -1,0 +1,58 @@
+[
+  {
+    "id": 1,
+    "nombre": "SmartwatchK10",
+    "precio": 34990,
+    "categoria": "Smartwatch",
+    "imagen": "k10.png"
+  },
+  {
+    "id": 2,
+    "nombre": "SmartwatchK11",
+    "precio": 34990,
+    "categoria": "Smartwatch",
+    "imagen": "k11.png"
+  },
+  {
+    "id": 3,
+    "nombre": "SmartwatchFIT2",
+    "precio": 34990,
+    "categoria": "Smartwatch",
+    "imagen": "fit2.jpg"
+  },
+  {
+    "id": 4,
+    "nombre": "SmartwatchMB7",
+    "precio": 34990,
+    "categoria": "Smartwatch",
+    "imagen": "mb7.png"
+  },
+  {
+    "id": 5,
+    "nombre": "AuriJBLVibe100",
+    "precio": 34990,
+    "categoria": "Auriculares",
+    "imagen": "v100.png"
+  },
+  {
+    "id": 6,
+    "nombre": "AuriJBLVBuds",
+    "precio": 34990,
+    "categoria": "Auriculares",
+    "imagen": "vbuds.png"
+  },
+  {
+    "id": 7,
+    "nombre": "AuriJBL130",
+    "precio": 34990,
+    "categoria": "Auriculares",
+    "imagen": "130nc.png"
+  },
+  {
+    "id": 8,
+    "nombre": "AuriJBL230",
+    "precio": 34990,
+    "categoria": "Auriculares",
+    "imagen": "230nc.png"
+  }
+]
